@@ -1,0 +1,88 @@
+﻿@model IEnumerable<SAEP.Models.Evento>
+
+@{
+    if (Session["usuarioRol"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    else if (Session["usuarioRol"].ToString() == "1")
+    {
+        Response.Redirect("~/Director/Index");
+    }
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Crear Evento", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Ponente")
+        </th>
+        <th>
+            @Html.DisplayName("Titulo")
+        </th>
+        <th>
+            @Html.DisplayName("Fecha")
+        </th>
+        <th>
+            @Html.DisplayName("Lugar")
+        </th>
+        <th>
+            @Html.DisplayName("Asesor")
+        </th>
+        <th>
+            @Html.DisplayName("Abstract")
+        </th>
+        <th>
+            @Html.DisplayName("Estado")
+        </th>
+        <th>
+            @Html.DisplayName("Tipo")
+        </th>
+        <th>
+            @Html.DisplayName("Coordinador")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ponente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.titulo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lugar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.asesor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.abstracto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.c_Estado_Evento.descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.c_Tipo_Evento.descripcion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Usuario.nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Cancelar", "Edit","Coordinator", new { id = item.id_evento }, null) |
+            @Html.ActionLink("PDF", "Invitacion", "Coordinator", new { id = item.id_evento }, null)
+        </td>
+    </tr>
+}
+
+</table>

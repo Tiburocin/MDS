@@ -1,0 +1,28 @@
+﻿@model SAEP.Models.Usuario
+@{
+    ViewBag.Title = "Login";
+}
+<div class="container" id="login-div">
+    <div class="row">
+        <h2><strong>Inicio de sesión del sistema</strong> SAEP <br /></h2><br />
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <!-- Start form -->
+            @using (Html.BeginForm("Autorizar", "Home", FormMethod.Post))
+            {
+
+                <div class="form-group">
+                    @Html.Label("Correo")
+                    @Html.TextBoxFor(model => model.correo, new { @class = "form-control", placeholder = "Ingresa un correo", type = "email" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Contraseña")
+                    @Html.TextBoxFor(model => model.contraseña, new { @class = "form-control", placeholder = "Contraseña", type = "password" })
+                </div>
+                <div class="help-block with-errors">@Html.DisplayFor(model => model.ErrorLogin)</div>
+                <div class="form-check">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

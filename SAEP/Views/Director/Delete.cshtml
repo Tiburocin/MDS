@@ -1,0 +1,64 @@
+﻿@model SAEP.Models.Usuario
+
+@{
+    if (Session["usuarioRol"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    else if (Session["usuarioRol"].ToString() == "2")
+    {
+        Response.Redirect("~/Coordinator/Index");
+    }
+    ViewBag.Title = "Borrar";
+}
+
+<h2>Eliminar</h2>
+
+<h3>Seguro que desea borrar a este usuario?</h3>
+<div>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+           Nombre
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+
+        <dt>
+            Correo
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.correo)
+        </dd>
+
+        <dt>
+            Contraseña
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.contraseña)
+        </dd>
+
+        <dt>
+            Telefono
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.telefono)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Regresar", "Index")
+        </div>
+    }
+</div>

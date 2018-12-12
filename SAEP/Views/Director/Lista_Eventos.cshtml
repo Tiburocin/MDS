@@ -1,0 +1,85 @@
+﻿@model IEnumerable<SAEP.Models.Evento>
+
+@{
+    if (Session["usuarioRol"] == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    else if (Session["usuarioRol"].ToString() == "2")
+    {
+        Response.Redirect("~/Coordinator/Index");
+    }
+    ViewBag.Title = "Lista de Eventos";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+
+<table class="table display" id="tabla">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("Ponente")
+            </th>
+            <th>
+                @Html.DisplayName("Titulo")
+            </th>
+            <th>
+                @Html.DisplayName("Fecha")
+            </th>
+            <th>
+                @Html.DisplayName("Lugar")
+            </th>
+            <th>
+                @Html.DisplayName("Asesor")
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.c_Estado_Evento.descripcion)*@
+                @Html.ActionLink("Estado Evento", "Lista_Eventos", new { sortOrder = ViewBag.NameSortParm1 })
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.c_Tipo_Evento.descripcion)*@
+                @Html.ActionLink("Tipo Evento","Lista_Eventos", new { sortOrder = ViewBag.NameSortParm2 })
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Usuario.nombre)*@
+                @Html.ActionLink("Coordinador","Lista_Eventos", new { sortOrder = ViewBag.NameSortParm3 })
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ponente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.titulo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.lugar)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.asesor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.c_Estado_Evento.descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.c_Tipo_Evento.descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Usuario.nombre)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+    
+</table>

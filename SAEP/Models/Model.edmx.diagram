@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bfd1ec511943462683240ec71917e505" Name="Diagram1">
+        <EntityTypeShape EntityType="SAEPModel.c_Direccion" Width="1.5" PointX="0.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAEPModel.c_Estado_Evento" Width="1.5" PointX="6.125" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAEPModel.c_Programa_Edu" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAEPModel.c_Rol" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAEPModel.c_Tipo_Evento" Width="1.5" PointX="9.375" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAEPModel.Evento" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="SAEPModel.Usuario" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <AssociationConnector Association="SAEPModel.FK__c_Program__id_di__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="SAEPModel.FK__Evento__id_estad__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="SAEPModel.FK__Usuario__id_pro___5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="SAEPModel.FK__Usuario__id_rol__5441852A" ManuallyRouted="false" />
+        <AssociationConnector Association="SAEPModel.FK__Evento__id_tipo__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="SAEPModel.FK__Evento__matricul__5FB337D6" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
