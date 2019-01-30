@@ -1,11 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - SAEP</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~~/Content/themes/base/jquery-ui.css")
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -17,37 +19,42 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @if (Session["usuarioRol"] == null)
-                {
-                    @Html.ActionLink("SAEP", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                }
-                else if (Session["usuarioRol"].ToString() == "2")
-                {
-                    @Html.ActionLink("SAEP", "Index", "Coordinator", new { area = "" }, new { @class = "navbar-brand" })
-                }
-                else if (Session["usuarioRol"].ToString() == "1")
-                {
-                    @Html.ActionLink("SAEP", "Index", "Director", new { area = "" }, new { @class = "navbar-brand" })
+
+                @{ SAEP.Models.Usuario user = (SAEP.Models.Usuario)Session["usuario"];
+
+                    if (user == null)
+                    {
+                        @Html.ActionLink("SAEP", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    }
+                    else if (user.id_rol.ToString() == "2")
+                    {
+                        @Html.ActionLink("SAEP", "Index", "Coordinator", new { area = "" }, new { @class = "navbar-brand" })
+                    }
+                    else if (user.id_rol.ToString() == "1")
+                    {
+                        @Html.ActionLink("SAEP", "Index", "Director", new { area = "" }, new { @class = "navbar-brand" })
+                    }
                 }
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (Session["usuarioRol"] == null)
-                    {
-
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Salir", "Salir", "Home")</li>
-                      
-                        if (Session["usuarioRol"].ToString() == "1")
+                    @{
+                        if (user == null)
                         {
-                            <li>@Html.ActionLink("Eventos", "Lista_Eventos", "Director")</li>
+
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Salir", "Salir", "Home")</li>
+
+                            if (user.id_rol.ToString() == "1")
+                            {
+                                <li>@Html.ActionLink("Eventos", "Lista_Eventos", "Director")</li>
+                            }
                         }
                     }
 
-
-                    </ul>
+                </ul>
             </div>
         </div>
     </div>
@@ -60,6 +67,7 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~~/Scripts/jquery-ui-1.12.1.js")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>

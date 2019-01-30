@@ -27,9 +27,10 @@ namespace SAEP.Controllers
                 }
                 else
                 {
-                    Session["usuarioNombre"] = usuarioDetalle.nombre;
-                    Session["usuarioMatricula"] = usuarioDetalle.matricula;
-                    Session["usuarioRol"] = usuarioDetalle.id_rol;
+                    //Variable de sesion.
+                    Session.RemoveAll();
+                    Session.Clear();
+                    Session.Add("usuario", usuarioDetalle);
 
                     if (usuarioDetalle.id_rol == 1)
                     {

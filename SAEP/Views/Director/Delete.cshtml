@@ -1,14 +1,17 @@
 ﻿@model SAEP.Models.Usuario
 
 @{
-    if (Session["usuarioRol"] == null)
+    SAEP.Models.Usuario user = (SAEP.Models.Usuario)Session["usuario"];
+
+    if (user == null)
     {
         Response.Redirect("~/Home/Index");
     }
-    else if (Session["usuarioRol"].ToString() == "2")
+    else if (user.id_rol.ToString() == "2")
     {
         Response.Redirect("~/Coordinator/Index");
     }
+
     ViewBag.Title = "Borrar";
 }
 

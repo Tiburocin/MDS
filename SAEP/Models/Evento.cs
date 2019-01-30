@@ -11,7 +11,8 @@ namespace SAEP.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Evento
     {
         public int id_evento { get; set; }
@@ -20,6 +21,8 @@ namespace SAEP.Models
         public int id_estado { get; set; }
         public string ponente { get; set; }
         public string titulo { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime fecha { get; set; }
         public string lugar { get; set; }
         public string asesor { get; set; }
