@@ -1,0 +1,72 @@
+﻿@model IEnumerable<SAEP.Models.Usuario>
+
+@{
+    SAEP.Models.Usuario user = (SAEP.Models.Usuario)Session["usuario"];
+
+    if (user == null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+    else if (user.id_rol != 3)
+    {
+        Response.Redirect("~/Home/Index");
+    }
+
+    ViewBag.Title = "Lista Usuarios";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Crear Director", "CreateDir")
+</p>
+<table class="table table-hover table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayName("Nombre")
+        </th>
+        <th>
+            @Html.DisplayName("Correo")
+        </th>
+        <th>
+            @Html.DisplayName("Contraseña")
+        </th>
+        <th>
+            @Html.DisplayName("Teléfono")
+        </th>
+        <th>
+            @Html.DisplayName("Estado")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.id_rol == 1)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.correo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.contraseña)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.telefono)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.estado)
+                </td>
+                <td>
+                    @Html.ActionLink("Cambiar estado", "Edit", "Admin", new { matricula = item.matricula }, null)
+                </td>
+
+            </tr>
+        }
+
+    }
+
+</table>

@@ -34,6 +34,10 @@
                     {
                         @Html.ActionLink("SAEP", "Index", "Director", new { area = "" }, new { @class = "navbar-brand" })
                     }
+                    else if (user.id_rol.ToString() == "3")
+                    {
+                        @Html.ActionLink("SAEP", "Index", "Admin", new { area = "" }, new { @class = "navbar-brand" })
+                    }
                 }
             </div>
             <div class="navbar-collapse collapse">

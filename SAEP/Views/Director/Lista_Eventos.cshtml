@@ -7,9 +7,9 @@
     {
         Response.Redirect("~/Home/Index");
     }
-    else if (user.id_rol.ToString() == "2")
+    else if (user.id_rol != 1)
     {
-        Response.Redirect("~/Coordinator/Index");
+        Response.Redirect("~/Home/Index");
     }
 
     ViewBag.Title = "Lista de Eventos";
@@ -19,7 +19,7 @@
 
 
 
-<table class="table display" id="tabla">
+<table class="table table-hover table-condensed table-responsive" id="tabla">
     <thead>
         <tr>
             <th>

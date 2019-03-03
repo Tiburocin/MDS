@@ -62,14 +62,23 @@ namespace Test.Controllers
                 evento.id_estado = 1;
                 db.Configuration.LazyLoadingEnabled = false;
 
+                if (evento.fecha > System.DateTime.Now)
+                {
+                    db.Evento.Add(evento);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["msg"] = "<script>alert('La fecha debe de ser en un plazo mayor a la actual');</script>";
+                }
 
-                db.Evento.Add(evento);
-                await db.SaveChangesAsync();
+               
 
 
                 ViewBag.id_tipo = new SelectList(db.c_Tipo_Evento, "id_tipo", "descripcion", evento.id_tipo);
 
-                return RedirectToAction("Index");
+                return View(evento);
 
             }
             return View(evento);
@@ -140,37 +149,67 @@ namespace Test.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var evento = db.Evento.Find(id);
-            
-           //Ruta del archivo donde se almacenara.
-            FileStream fs = new FileStream(@"C:/Users/Juan/Documents/Invitación.pdf", FileMode.Create);
+           
+            //Ruta del archivo donde se almacenara.
+            FileStream fs = new FileStream("D:/Juan/Documents/Invitación.pdf", FileMode.Create);
             Document document = new Document(iTextSharp.text.PageSize.LETTER, 0, 0, 0, 0);
             PdfWriter writer = PdfWriter.GetInstance(document, fs);
-            
+
+            document.AddTitle("Invitación");
+            document.AddCreator("SAEP");
+
             document.Open();
-            BaseFont bf = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252,false);
-                     
-            document.Add(new Paragraph("Universidad Politécnica de Tulancingo"));
+
+
+            iTextSharp.text.Font verdana1 = FontFactory.GetFont("Verdana", 18, iTextSharp.text.Font.BOLDITALIC, new iTextSharp.text.BaseColor(4, 26, 144));
+            iTextSharp.text.Font verdana2 = FontFactory.GetFont("Verdana", 25, iTextSharp.text.Font.BOLDITALIC, new iTextSharp.text.BaseColor(4, 26, 144));
+            iTextSharp.text.Font Times1 = FontFactory.GetFont("Times", 14, iTextSharp.text.Font.ITALIC, new iTextSharp.text.BaseColor(125, 88, 15));
+            iTextSharp.text.Font Times2 = FontFactory.GetFont("Times", 8, iTextSharp.text.Font.ITALIC, new iTextSharp.text.BaseColor(125, 88, 15));
+
+            iTextSharp.text.Rectangle rect = new iTextSharp.text.Rectangle(200f, 900f);
+            rect.BackgroundColor = new BaseColor(134, 8, 18);
             
-            //Imagenes para el documento.
-            iTextSharp.text.Image png1 = iTextSharp.text.Image.GetInstance("C:/Users/Juan/Documents/logo.png");
-            png1.ScalePercent(40f);
+            document.Add(rect);
+
+            Paragraph p = new Paragraph();
+            p.Alignment = Element.ALIGN_CENTER;
+
+            p.IndentationLeft = 200f;
+            p.IndentationRight = 200f;
+
+
+            p.Add(new Paragraph($"{evento.Usuario.c_Programa_Edu.c_Direccion.nombre}", verdana1));
+            p.Add(new Paragraph("INVITA ", verdana2));
+            document.Add(p);
+
+            
+
+            document.Add(new Paragraph($"{evento.codigo}",Times1));
+            document.Add(new Paragraph($"{evento.ponente}", Times1));
+            document.Add(new Paragraph($"{evento.titulo}", Times1));
+            document.Add(new Paragraph($"{evento.Usuario.c_Programa_Edu.nombre}", verdana1));
+            document.Add(new Paragraph($"{evento.c_Tipo_Evento.descripcion}", Times1));
+            document.Add(new Paragraph($"{evento.lugar}", Times1));
+            document.Add(new Paragraph($"{evento.fecha.ToShortDateString()}", Times1));
+            document.Add(new Paragraph($"{evento.asesor}", Times1));
+            document.Add(new Paragraph($"{evento.abstracto}", Times1));
+            
+            Chunk codigo = new Chunk($"{evento.codigo}", Times2);
+            
+            iTextSharp.text.Image png1 = iTextSharp.text.Image.GetInstance("D:/Juan/Documents/logo.png");
+            png1.ScalePercent(60f);
+            png1.SetAbsolutePosition(40f, 630f);
             document.Add(png1);
 
-            document.Add(new Paragraph($"{evento.codigo}"));
-            document.Add(new Paragraph($"{evento.ponente}"));
-            document.Add(new Paragraph($"{evento.titulo}"));
-            document.Add(new Paragraph($"{evento.c_Tipo_Evento.descripcion}"));
-            document.Add(new Paragraph($"{evento.lugar}"));
-            document.Add(new Paragraph($"{evento.fecha}"));
-            document.Add(new Paragraph($"{evento.asesor}"));
-            document.Add(new Paragraph($"{evento.abstracto}"));
-            
-            //Codigo QR
-            iTextSharp.text.Image png2 = iTextSharp.text.Image.GetInstance("C:/Users/Juan/Documents/QR-UPT.png");
-            png2.ScalePercent(50f);
-            png2.Alignment = Element.ALIGN_RIGHT;
+            iTextSharp.text.Image png2 = iTextSharp.text.Image.GetInstance("D:/Juan/Documents/QR-UPT.png");
+            png2.ScalePercent(45f);
+            png2.SetAbsolutePosition(460f, 15f);
             document.Add(png2);
+
+           
             document.Close();
+
+            System.Diagnostics.Process.Start("D:/Juan/Documents/Invitación.pdf");
 
             return RedirectToAction("Index", "Coordinator");
         }

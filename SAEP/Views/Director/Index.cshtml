@@ -1,73 +1,87 @@
 ﻿@model IEnumerable<SAEP.Models.Usuario>
 
 @{
-    SAEP.Models.Usuario user = (SAEP.Models.Usuario) Session["usuario"];
+    SAEP.Models.Usuario user = (SAEP.Models.Usuario)Session["usuario"];
 
     if (user == null)
     {
         Response.Redirect("~/Home/Index");
     }
-    else if (user.id_rol.ToString() == "2")
+    else if (user.id_rol != 1)
     {
-        Response.Redirect("~/Coordinator/Index");
+        Response.Redirect("~/Home/Index");
     }
 
     ViewBag.Title = "Lista Usuarios";
 }
 
-<h2>@ViewBag.Title</h2>
+    <h2>@ViewBag.Title</h2>
 
-<p>
-    @Html.ActionLink("Crear Coordinador", "Create") |
-    @Html.ActionLink("Crear Director", "CreateDir")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayName("Nombre")
-        </th>
-        <th>
-            @Html.DisplayName("Correo")
-        </th>
-        <th>
-            @Html.DisplayName("Contraseña")
-        </th>
-        <th>
-            @Html.DisplayName("Teléfono")
-        </th>
-        <th>
-            @Html.DisplayName("Programa Educativo")
-        </th>
-        <th>
-            @Html.DisplayName("Rol")
-        </th>
-        <th></th>
-    </tr>
+    <p>
+        @Html.ActionLink("Crear Coordinador", "Create") 
+    </p>
+    <table class="table table-hover table-condensed table-responsive">
+        <tr>
+            <th>
+                @Html.DisplayName("Nombre")
+            </th>
+            <th>
+                @Html.DisplayName("Correo")
+            </th>
+            <th>
+                @Html.DisplayName("Contraseña")
+            </th>
+            <th>
+                @Html.DisplayName("Teléfono")
+            </th>
+            <th>
+                @Html.DisplayName("Estado")
+            </th>
+            <th>
+                @Html.DisplayName("Programa Educativo")
+            </th>
+            <th>
+                @Html.DisplayName("Rol")
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.correo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.contraseña)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.telefono)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.c_Programa_Edu.nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.c_Rol.descripcion)
-        </td>
-        <td>
-            @Html.ActionLink("Borrar", "Delete", new { id = item.matricula })
-        </td>
-    </tr>
-}
+        @foreach (var item in Model)
+        {
+            if (item.id_rol == 2)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.correo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.contraseña)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.telefono)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.estado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.c_Programa_Edu.nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.c_Rol.descripcion)
+                    </td>
+                    @if (item.id_rol == 2)
+                    {
+                    <td>
+                        @Html.ActionLink("Cambiar estado", "Edit", "Director", new { matricula = item.matricula }, null)
+                    </td>
+                    }
 
-</table>
+                </tr>
+            }
+
+        }
+
+    </table>

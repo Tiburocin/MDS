@@ -11,7 +11,8 @@ namespace SAEP.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Usuario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,19 +20,30 @@ namespace SAEP.Models
         {
             this.Evento = new HashSet<Evento>();
         }
-    
+
+        [Required]
         public int matricula { get; set; }
+        [Required]
+        //[RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Solo se permite el uso de letras")]
         public string nombre { get; set; }
+        [Required]
+        [EmailAddress]
         public string correo { get; set; }
+        [Required]
+        [DataType(DataType.Password), MinLength(6)]
         public string contraseña { get; set; }
         public int id_rol { get; set; }
+        [Required]
+        [Phone, MinLength(10), MaxLength(10)]
         public string telefono { get; set; }
         public Nullable<int> id_pro_edu { get; set; }
-    
+        public Nullable<bool> estado { get; set; }
+        public string ErrorLogin { get; internal set; }
+
+
         public virtual c_Programa_Edu c_Programa_Edu { get; set; }
         public virtual c_Rol c_Rol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Evento> Evento { get; set; }
-        public string ErrorLogin { get; internal set; }
     }
 }

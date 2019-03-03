@@ -25,6 +25,11 @@ namespace SAEP.Controllers
                     usuario.ErrorLogin = "Correo o contraseña invalida.";
                     return View("Index", usuario);
                 }
+                else if (usuarioDetalle.estado == false)
+                {
+                    usuario.ErrorLogin = "La cuenta está deshabilitada.";
+                    return View("Index", usuario);
+                }
                 else
                 {
                     //Variable de sesion.
@@ -36,9 +41,13 @@ namespace SAEP.Controllers
                     {
                         return RedirectToAction("Index", "Director");
                     }
-                    else
+                    else if(usuarioDetalle.id_rol == 2)
                     {
                         return RedirectToAction("Index", "Coordinator");
+                    }
+                    else 
+                    {
+                        return RedirectToAction("Index", "Admin");
                     }
                 }
             }
